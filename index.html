@@ -231,7 +231,7 @@
       showTyping();
 
       try {
-        const res = await fetch("/api/chat", {
+        const res = await fetch("/api/chat.js", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ userId: uid, message: text }),
@@ -275,4 +275,5 @@
     }, 500);
   </script>
 </body>
+</html>
 </html>
