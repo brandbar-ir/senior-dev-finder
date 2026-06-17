@@ -169,10 +169,10 @@
     tg?.ready();
     tg?.expand();
 
-    const uid = new URLSearchParams(location.search).get("uid") || "test_user";
     const chat = document.getElementById("chat");
     const input = document.getElementById("input");
     let phase = 1;
+    let conversationHistory = [];
 
     function addBubble(text, who) {
       const b = document.createElement("div");
@@ -231,13 +231,14 @@
       showTyping();
 
       try {
-        const res = await fetch("/api/chat.js", {
+        const res = await fetch("/api/chat-js", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ userId: uid, message: text }),
+          body: JSON.stringify({ message: text, history: conversationHistory }),
         });
         const data = await res.json();
         hideTyping();
+        if (data.history) conversationHistory = data.history;
         addBubble(data.reply, "bot");
 
         // Auto-detect phase from message keywords
